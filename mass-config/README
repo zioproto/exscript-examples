@@ -1,0 +1,8 @@
+
+Mass Config Exscript Example
+
+This example reads login information from prompt. Host list is loaded from hostlist.txt
+
+For each host the script will execute the commands (1 per line) in the file commands.txt
+
+The script will create the ./logs/ folder where you find the report for each host
