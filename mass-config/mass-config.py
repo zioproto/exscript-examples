@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 from Exscript                import Queue, Logger, FileLogger
-from Exscript.util.log       import log_to
+#from Exscript.util.log       import log_to
 from Exscript.util.decorator import autologin
 from Exscript.util.file      import get_hosts_from_file, get_accounts_from_file
 from Exscript.util.report    import status, summarize
@@ -9,11 +9,9 @@ from Exscript.util.match import first_match
 import os,sys
 os.system("mkdir -p ./logs/")
 #logger = Logger() # Logs everything to memory.
-logger = FileLogger("./logs/")
 
-@log_to(logger)
-#@autologin()
-def do_something(job,host,conn):
+@autologin
+def do_something(conn):
 	#if conn.guess_os() != 'ios':
 	#        raise Exception('unsupported os: ' + repr(conn.guess_os()))
 
@@ -21,9 +19,8 @@ def do_something(job,host,conn):
 	# system behave more script-friendly. The specific commands depend
 	# on the detected operating system, i.e. on what guess_os() returns.
 	#conn.autoinit()
-	conn.authenticate()
-	#print repr(conn.response) #DEBUG
-	#hostname = first_match(conn.response, r'^.*#$') #just for cisco match #
+	#conn.authenticate()
+	#hostname = first_match(conn.response, r'^.*#$') # only for cisco try to match #
 	#assert hostname
 	commands = commandsfile.readlines()
 	for command in commands:
@@ -55,8 +52,8 @@ ssh://192.168.0.1
 # Run do_something on each of the hosts. The given accounts are used
 # round-robin. "verbose = 0" instructs the queue to not generate any
 # output on stdout.
-queue = Queue(verbose = 3, max_threads = 5)
-
+queue = Queue(verbose = 5, max_threads = 5,logdir = './logs/')
+logger = Logger(queue)
 queue.add_account(accounts)     # Adds one or more accounts.
 queue.run(hosts, do_something)  # Asynchronously enqueues all hosts.
 queue.shutdown()                # Waits until all hosts are completed.
