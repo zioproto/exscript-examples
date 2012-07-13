@@ -25,6 +25,7 @@ def do_something(job,host,conn):
 	#print repr(conn.response) #DEBUG
 	#hostname = first_match(conn.response, r'^.*#$') #just for cisco match #
 	#assert hostname
+	commandsfile = open("commands.txt")
 	commands = commandsfile.readlines()
 	for command in commands:
 		conn.execute(command)
