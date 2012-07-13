@@ -22,6 +22,7 @@ def do_something(conn):
 	#conn.authenticate()
 	#hostname = first_match(conn.response, r'^.*#$') # only for cisco try to match #
 	#assert hostname
+	commandsfile = open("commands.txt")
 	commands = commandsfile.readlines()
 	for command in commands:
 		conn.execute(command)
