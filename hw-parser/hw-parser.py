@@ -14,6 +14,10 @@ os.system("mkdir -p ./logs/")
 #logger = Logger() # Logs everything to memory.
 logger = FileLogger("./logs/")
 
+def getnamespace(root):
+       return root[0].tag[root[0].tag.find('{'):root[0].tag.find('}')+1]
+
+
 @log_to(logger)
 #@autologin()
 def do_something(job,host,conn):
@@ -44,7 +48,8 @@ def do_something(job,host,conn):
 		#print "\n\n\n\n\n" + thexml[start:end] + "\n\n\n\n\n"
 		root = ET.fromstring(thexml[start:end])
 		#namespace = '{http://xml.juniper.net/junos/11.4R5/junos}'
-		namespace = '{http://xml.juniper.net/junos/11.4R5/junos-chassis}'
+		#namespace = '{http://xml.juniper.net/junos/11.4R5/junos-chassis}'
+		namespace = getnamespace(root)
 		#modules = root.findall('{0}chassis-inventory/{0}chassis/{0}chassis-module'.format(namespace))
 		
 		f.write("\n\nSummary of FPC for " + host.name + "\n")
